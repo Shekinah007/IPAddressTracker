@@ -29,18 +29,15 @@ code {
 }
 
 header {
-  background: chartreuse;
   background-image: url("./images/pattern-bg.png");
-  height: 30vh;
+  height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .address-div {
-  /* background: white; */
   display: flex;
   align-items: center;
-  /* justify-content: center; */
 }
 .address-input {
   background: white;
@@ -48,8 +45,9 @@ header {
   border-bottom-left-radius: 10px;
   height: 40px;
   border: none;
-  min-width: 40vw;
-  max-width: 80vw;
+  /* min-width: 20vw;
+  max-width: 80vw; */
+  width: 50vw;
   padding: 1vmin;
   box-sizing: border-box;
   outline: none;
@@ -61,9 +59,69 @@ button {
   border: none;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
-  width: 50px;
+  width: 10vw;
+}
+.absolute {
+  position: absolute;
+  top: 0vh;
+  z-index: 10;
+  /* background: white; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 70vw;
+  max-width: 80vw;
 }
 .info {
-  position: fixed;
+  margin-top: 20px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  gap: 9px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 60vw;
+}
+h1 {
+  font-size: 19px;
+}
+.info h2 {
+  font-size: 10px;
+  margin: 0;
+  color:hsl(0, 0%, 59%);
+}
+.info p {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px
 }
 
+@media (min-width: 375px) {
+  .address-input {
+    width: 30vw;
+  }
+  button {
+    width: 5vw;
+  }
+  .info {
+    flex-direction: row;
+    gap: 3vw;
+    width: initial;
+    padding: 20px;
+  }
+  .bars {
+    height: 30px;
+    width: 2px;
+    background: rgb(177, 172, 172);
+  }
+}
