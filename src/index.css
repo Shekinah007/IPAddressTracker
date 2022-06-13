@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: aqua;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* #mapid { 
+  height: 100px;
+  background-color: beige; 
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100
+} */
+
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: chartreuse;
+  background-image: url("./images/pattern-bg.png");
+  height: 30vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.address-div {
+  /* background: white; */
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+.address-input {
+  background: white;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  height: 40px;
+  border: none;
+  min-width: 40vw;
+  max-width: 80vw;
+  padding: 1vmin;
+  box-sizing: border-box;
+  outline: none;
+}
+button {
+  background: grey;
+  height: 40px;
+  padding: 1vmin;
+  border: none;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 50px;
+}
+.info {
+  position: fixed;
+}
+
