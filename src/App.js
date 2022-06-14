@@ -9,23 +9,32 @@ import arrowIcon from "./images/icon-arrow.svg";
 
 function App() {
   let ip = "197.210.70.57";
+  const [searchBtn, setSearchBtn] = useState(true);
   const [ipAddress, setIpAddress] = useState("");
   const [location, setLocation] = useState("");
   const [timeZone, setTimeZone] = useState("");
   const [isp, setIsp] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+
+  const [latitude, setLatitude] = useState("9.0764785");
+  const [longitude, setLongitude] = useState("7.398574");
 
   // const position = [51.505, -0.09];
-  const position = [9.0764785, 7.398574];
+  // const position = [9.0764785, 7.398574];
+  const position = [latitude, longitude];
 
   useEffect(() => {
     fetch("http://ipwho.is/" + ipAddress)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setIpAddress(data.ip);
+        setTimeZone(data.timezone.utc);
+        setLocation(data.city + "," + data.region);
+        setIsp(data.connection.isp);
+        setLatitude(data.latitude);
+        setLongitude(data.longitude);
       });
-  }, []);
+  }, [searchBtn, latitude]);
   return (
     <div className="App">
       <header>
@@ -40,29 +49,29 @@ function App() {
                 setIpAddress(e.target.value);
               }}
             />
-            <button>
+            <button onClick={() => setSearchBtn((prevState) => !prevState)}>
               <img src={arrowIcon}></img>
             </button>
           </div>
           <div className="info">
             <div className="section">
               <h2>IP ADDRESS</h2>
-              <p>hello</p>
+              <p>{ipAddress}</p>
             </div>
             <div className="bars"></div>
             <div className="section">
               <h2>LOCATION</h2>
-              <p>Holslfkb w</p>
+              <p>{location}</p>
             </div>
             <div className="bars"></div>
             <div className="section">
               <h2>TIME ZONE</h2>
-              <p>okay!ndigh</p>
+              <p>UTC {timeZone}</p>
             </div>
             <div className="bars"></div>
             <div className="section">
               <h2>ISP</h2>
-              <p>Why in the name</p>
+              <p>{isp}</p>
             </div>
           </div>
         </div>
@@ -72,7 +81,7 @@ function App() {
         center={position}
         zoom={13}
         scrollWheelZoom={false}
-        style={{ width: "100vw", height: "80vh", zIndex: "-20" }}
+        style={{ width: "100vw", height: "80vh" }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
