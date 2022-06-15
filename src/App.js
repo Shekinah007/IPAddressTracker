@@ -10,8 +10,6 @@ import arrowIcon from "./images/icon-arrow.svg";
 import { map } from "leaflet";
 
 function App() {
-  console.log("process.env: ", process.env.REACT_APP_MAP_TILER_API);
-
   const [searchBtn, setSearchBtn] = useState(true);
   const [ipAddress, setIpAddress] = useState("");
   const [location, setLocation] = useState("");
@@ -27,7 +25,6 @@ function App() {
     fetch("https://ipwho.is/" + ipAddress)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setIpAddress(data.ip);
         setTimeZone(data.timezone.utc);
         setLocation(data.city + "," + data.region);

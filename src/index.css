@@ -75,7 +75,7 @@ button {
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-  gap: 9px;
+  gap: 1vmin;
   padding-top: 10px;
   padding-bottom: 10px;
   width: 60vw;
