@@ -3,27 +3,28 @@ import { useEffect } from "react";
 import { useState } from "react";
 import "./index.css";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import { useMapEvents } from "react-leaflet";
 
 import backgroundImg from "./images/pattern-bg.png";
 import arrowIcon from "./images/icon-arrow.svg";
+import { map } from "leaflet";
 
 function App() {
-  let ip = "197.210.70.57";
+  console.log("process.env: ", process.env.REACT_APP_MAP_TILER_API);
+
   const [searchBtn, setSearchBtn] = useState(true);
   const [ipAddress, setIpAddress] = useState("");
   const [location, setLocation] = useState("");
   const [timeZone, setTimeZone] = useState("");
   const [isp, setIsp] = useState("");
 
-  const [latitude, setLatitude] = useState("9.0764785");
-  const [longitude, setLongitude] = useState("7.398574");
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
-  // const position = [51.505, -0.09];
-  // const position = [9.0764785, 7.398574];
-  const position = [latitude, longitude];
+  const [position, setPosition] = useState([9.0764785, 7.398574]);
 
   useEffect(() => {
-    fetch("http://ipwho.is/" + ipAddress)
+    fetch("https://ipwho.is/" + ipAddress)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -33,8 +34,22 @@ function App() {
         setIsp(data.connection.isp);
         setLatitude(data.latitude);
         setLongitude(data.longitude);
+        setPosition([data.latitude, data.longitude]);
       });
   }, [searchBtn, latitude]);
+
+  function MyMarker() {
+    const map = useMap();
+    console.log("map center:", map.getCenter());
+    map.flyTo([latitude, longitude], 12);
+
+    return (
+      <Marker position={[latitude, longitude]}>
+        <Popup>You are here</Popup>
+      </Marker>
+    );
+  }
+
   return (
     <div className="App">
       <header>
@@ -47,12 +62,19 @@ function App() {
               value={ipAddress}
               onChange={(e) => {
                 setIpAddress(e.target.value);
+                console.log(e);
               }}
             />
-            <button onClick={() => setSearchBtn((prevState) => !prevState)}>
+
+            <button
+              onClick={() => {
+                setSearchBtn((prevState) => !prevState);
+              }}
+            >
               <img src={arrowIcon}></img>
             </button>
           </div>
+
           <div className="info">
             <div className="section">
               <h2>IP ADDRESS</h2>
@@ -77,22 +99,20 @@ function App() {
         </div>
       </header>
 
-      <MapContainer
-        center={position}
-        zoom={13}
-        scrollWheelZoom={false}
-        style={{ width: "100vw", height: "80vh" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
+      {latitude && (
+        <MapContainer
+          center={{ lat: latitude, lng: longitude }}
+          zoom={13}
+          scrollWheelZoom={false}
+          style={{ width: "100vw", height: "80vh" }}
+        >
+          <TileLayer
+            attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+            url={`https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=${process.env.REACT_APP_MAP_TILER_API}`}
+          />
+          <MyMarker />
+        </MapContainer>
+      )}
     </div>
   );
 }
